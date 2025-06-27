@@ -1,0 +1,60 @@
+<!-- index.html : Jinja2(.j2)プレビュー／比較クライアント
+     * NunJucks (Jinja2互換) を CDN 読込 → ブラウザ単体でレンダリング
+     * HTML + CSS + JS のみ。サーバ不要。
+-->
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>J2 Template Previewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.4/browser/nunjucks.min.js"></script>
+  <link rel="stylesheet" href="./template_checker.css">
+</head>
+<body>
+  <h1>J2 テンプレ比較（クライアントサイド）</h1>
+
+  <!-- アップローダ -->
+  <div>
+    <input type="file" id="fileInput" accept=".j2" style="display:none;" />
+    <button id="browseBtn">テンプレートファイルを選択</button>
+    <span id="selectedFile" style="margin-left: 10px; color: #666;"></span>
+  </div>
+  <button id="renderBtn">プレビュー生成</button>
+  <button id="saveBtn" disabled>変更後J2ファイル保存</button>
+  <span id="status" class="error"></span>
+
+  <!-- レンダリング結果 -->
+  <h2>レンダリング後プレビュー</h2>
+  <div class="preview-container">
+    <iframe id="previewFrame"></iframe>
+    <div class="info-panel">
+      <!-- 情報パネルはJavaScriptで動的に生成されます -->
+    </div>
+  </div>
+
+  <!-- J2 ソース表示 -->
+  <h2>アップロードされた .j2 ソース</h2>
+  <textarea id="sourceArea" readonly></textarea>
+
+  <script src="./template_checker.js"></script>
+  <script>
+    // 直接HTMLに埋め込まれたテストスクリプト
+    console.log('Inline script executed - HTML is loading correctly');
+    window.addEventListener('load', function() {
+      console.log('Window loaded');
+      console.log('nunjucks available:', typeof nunjucks !== 'undefined');
+      
+      // ボタンが存在するかテスト
+      const testBtn = document.getElementById('renderBtn');
+      console.log('Render button found:', !!testBtn);
+      
+      if (testBtn) {
+        console.log('Adding test click handler');
+        testBtn.addEventListener('click', function() {
+          console.log('TEST: Render button clicked via inline script');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
